@@ -1,0 +1,20 @@
+[
+  {"id": "gemini-pro", "name": "Gemini 2.5 Pro", "provider": "Google", "model": "gemini-2.5-pro", "context": 1000000, "pricing": "free-tier", "status": "active"},
+  {"id": "gemini-flash", "name": "Gemini 2.5 Flash", "provider": "Google", "model": "gemini-2.5-flash", "context": 1000000, "pricing": "free-tier", "status": "active"},
+  {"id": "gpt-4.1", "name": "GPT-4.1", "provider": "OpenAI", "model": "gpt-4.1", "context": 1000000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "gpt-4o", "name": "GPT-4o", "provider": "OpenAI", "model": "gpt-4o", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "claude-sonnet-4", "name": "Claude Sonnet 4", "provider": "Anthropic", "model": "claude-sonnet-4-20250514", "context": 200000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "claude-opus-4", "name": "Claude Opus 4", "provider": "Anthropic", "model": "claude-opus-4-20250514", "context": 200000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "mistral-large", "name": "Mistral Large", "provider": "Mistral", "model": "mistral-large-latest", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "groq-llama", "name": "Groq Llama 3.3 70B", "provider": "Groq", "model": "llama-3.3-70b-versatile", "context": 128000, "pricing": "free-tier", "status": "active"},
+  {"id": "deepseek-v3", "name": "DeepSeek V3", "provider": "DeepSeek", "model": "deepseek-chat", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "deepseek-r1", "name": "DeepSeek R1", "provider": "DeepSeek", "model": "deepseek-reasoner", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "qwen-3", "name": "Qwen 3 235B", "provider": "Alibaba", "model": "qwen3-235b-a22b", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "grok-3", "name": "Grok 3", "provider": "xAI", "model": "grok-3", "context": 131072, "pricing": "pay-per-use", "status": "active"},
+  {"id": "cohere-r-plus", "name": "Cohere Command R+", "provider": "Cohere", "model": "command-r-plus", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "together-ai", "name": "Together AI", "provider": "Together", "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "openrouter", "name": "OpenRouter", "provider": "OpenRouter", "model": "auto", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "hyperbolic", "name": "Hyperbolic", "provider": "Hyperbolic", "model": "meta-llama/Llama-3.3-70B-Instruct", "context": 128000, "pricing": "pay-per-use", "status": "active"},
+  {"id": "xai", "name": "xAI", "provider": "xAI", "model": "grok-3-mini", "context": 131072, "pricing": "pay-per-use", "status": "active"},
+  {"id": "cerebras", "name": "Cerebras", "provider": "Cerebras", "model": "llama-3.3-70b", "context": 128000, "pricing": "free-tier", "status": "active"}
+]

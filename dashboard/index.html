@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Swarm™ — DEVKiTZ™ Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #fa1e4e;
+            --bg: #060608;
+            --surface: #0a0a0f;
+            --border: rgba(255,255,255,.06);
+            --green: #00ff88;
+            --yellow: #ffb800;
+            --red: #ff3b5c;
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --text: #e8e8ec;
+            --muted: #52525b;
+            --radius: 12px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+        .header { text-align:center; padding:32px 16px 24px; }
+        .header h1 { font-size:1.8rem; font-weight:700; background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .header p { color:var(--muted); font-size:.85rem; margin-top:4px; }
+        .grid { display:grid; gap:12px; padding:0 16px 24px; max-width:1200px; margin:0 auto; }
+        .agents-grid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); }
+        .systems-grid { grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); }
+        .loops-grid { grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); }
+        .section-title { font-size:.75rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; padding:16px 16px 8px; max-width:1200px; margin:0 auto; }
+        .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; transition:all .25s ease; position:relative; overflow:hidden; }
+        .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity .3s; }
+        .card:hover { border-color:rgba(250,30,78,.2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(250,30,78,.08); }
+        .card:hover::before { opacity:1; }
+        .agent-card { text-align:center; }
+        .agent-icon { font-size:2rem; margin-bottom:8px; display:block; animation:float 3s ease-in-out infinite; }
+        .agent-name { font-size:.75rem; font-weight:600; margin-bottom:2px; }
+        .agent-role { font-size:.6rem; color:var(--muted); }
+        .status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-top:8px; animation:pulse 2s ease-in-out infinite; }
+        .status-dot.online { background:var(--green); box-shadow:0 0 8px rgba(0,255,136,.4); }
+        .status-dot.degraded { background:var(--yellow); box-shadow:0 0 8px rgba(255,184,0,.4); }
+        .status-dot.offline { background:var(--red); box-shadow:0 0 8px rgba(255,59,92,.4); }
+        .system-icon { font-size:1.5rem; margin-bottom:8px; }
+        .system-name { font-size:.8rem; font-weight:600; }
+        .system-desc { font-size:.6rem; color:var(--muted); margin-top:4px; }
+        .system-status { display:flex; align-items:center; gap:6px; margin-top:8px; font-size:.65rem; }
+        .loop-card { display:flex; align-items:center; gap:12px; }
+        .loop-icon { font-size:1.2rem; width:32px; text-align:center; }
+        .loop-info { flex:1; }
+        .loop-name { font-size:.7rem; font-weight:600; }
+        .loop-interval { font-size:.55rem; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+        .loop-active { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.5s ease-in-out infinite; }
+        .footer { text-align:center; padding:24px; color:var(--muted); font-size:.6rem; font-family:'JetBrains Mono',monospace; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        @media(max-width:640px) { .agents-grid{grid-template-columns:repeat(2,1fr)} .header h1{font-size:1.4rem} }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🐝 Agent Swarm™</h1>
+        <p>DEVKiTZ™ Multi-Agent Orchestrierung — Echtzeit Dashboard</p>
+    </div>
+
+    <div class="section-title">🤖 BMAD™ Agenten (7)</div>
+    <div class="grid agents-grid" id="agents"></div>
+
+    <div class="section-title">⚙️ Kern-Systeme (6)</div>
+    <div class="grid systems-grid" id="systems"></div>
+
+    <div class="section-title">🔄 Aktive Loops (8)</div>
+    <div class="grid loops-grid" id="loops"></div>
+
+    <div class="footer">
+        Agent Swarm™ v2.0.0 · DEVKiTZ™ Ökosystem · <span id="clock"></span>
+    </div>
+
+    <script>
+    function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+    const agents = [
+        {icon:'🎯',name:'James™',role:'Guardian',status:'online'},
+        {icon:'📋',name:'DkZ PM™',role:'Product Manager',status:'online'},
+        {icon:'🏗️',name:'Architekt™',role:'Architektur',status:'online'},
+        {icon:'👨‍💻',name:'Developer™',role:'Ralph-Loop Executor',status:'online'},
+        {icon:'🔍',name:'Reviewer™',role:'CodeRabbit QA',status:'online'},
+        {icon:'🧪',name:'Tester™',role:'Validierung',status:'online'},
+        {icon:'📚',name:'Dokumentar™',role:'Dokumentation',status:'online'}
+    ];
+    const systems = [
+        {icon:'🐝',name:'Agent Swarm',desc:'Orchestrierung aller KI-Agenten',status:'online'},
+        {icon:'🔄',name:'Ralph-Loop™',desc:'6-Phasen Execution Pipeline',status:'online'},
+        {icon:'🕸️',name:'BotNet™',desc:'Multi-Agent Operations',status:'online'},
+        {icon:'🤖',name:'Copilot Bridge',desc:'18 LLM Provider · MCP',status:'online'},
+        {icon:'📨',name:'Hermes™',desc:'Matrix · NanoChat · Tickets',status:'degraded'},
+        {icon:'🧊',name:'Iceberg™',desc:'Daten-Persistenz · Archiv',status:'online'}
+    ];
+    const loops = [
+        {icon:'🔄',name:'Ralph Loop',interval:'per-task',active:true},
+        {icon:'💡',name:'Copilot Suggest',interval:'30s',active:true},
+        {icon:'💾',name:'Auto-Save',interval:'60s',active:true},
+        {icon:'📦',name:'Backup',interval:'5min',active:true},
+        {icon:'🏥',name:'Health Check',interval:'30s',active:true},
+        {icon:'🔄',name:'Update',interval:'10min',active:true},
+        {icon:'🎫',name:'Issue Triage',interval:'5min',active:true},
+        {icon:'🤝',name:'Dual-Agent',interval:'realtime',active:true}
+    ];
+
+    document.getElementById('agents').innerHTML = agents.map(a => `
+        <div class="card agent-card">
+            <span class="agent-icon">${a.icon}</span>
+            <div class="agent-name">${esc(a.name)}</div>
+            <div class="agent-role">${esc(a.role)}</div>
+            <span class="status-dot ${a.status}"></span>
+        </div>
+    `).join('');
+
+    document.getElementById('systems').innerHTML = systems.map(s => `
+        <div class="card">
+            <div class="system-icon">${s.icon}</div>
+            <div class="system-name">${esc(s.name)}</div>
+            <div class="system-desc">${esc(s.desc)}</div>
+            <div class="system-status">
+                <span class="status-dot ${s.status}"></span>
+                <span style="color:var(--${s.status==='online'?'green':s.status==='degraded'?'yellow':'red'})">${s.status==='online'?'Online':s.status==='degraded'?'Degraded':'Offline'}</span>
+            </div>
+        </div>
+    `).join('');
+
+    document.getElementById('loops').innerHTML = loops.map(l => `
+        <div class="card loop-card">
+            <div class="loop-icon">${l.icon}</div>
+            <div class="loop-info">
+                <div class="loop-name">${esc(l.name)}</div>
+                <div class="loop-interval">${esc(l.interval)}</div>
+            </div>
+            ${l.active ? '<div class="loop-active"></div>' : ''}
+        </div>
+    `).join('');
+
+    setInterval(() => {
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString('de-DE');
+    }, 1000);
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('de-DE');
+    </script>
+</body>
+</html>

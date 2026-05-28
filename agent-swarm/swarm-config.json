@@ -1,0 +1,39 @@
+{
+  "name": "DEVKiTZ™ Agent Swarm",
+  "version": "2.0.0",
+  "updated": "2026-05-28",
+  "agents": [
+    {"id": "james", "name": "James™", "role": "guardian", "team": "james-guardian", "status": "active", "icon": "🎯"},
+    {"id": "pm", "name": "DkZ PM™", "role": "product-manager", "team": "dkz-pm", "status": "active", "icon": "📋"},
+    {"id": "architekt", "name": "DkZ Architekt™", "role": "architect", "team": "dkz-architekt", "status": "active", "icon": "🏗️"},
+    {"id": "developer", "name": "DkZ Developer™", "role": "developer", "team": "dkz-developer", "status": "active", "icon": "👨‍💻"},
+    {"id": "reviewer", "name": "DkZ Reviewer™", "role": "reviewer", "team": "dkz-reviewer", "status": "active", "icon": "🔍"},
+    {"id": "tester", "name": "DkZ Tester™", "role": "tester", "team": "dkz-tester", "status": "active", "icon": "🧪"},
+    {"id": "dokumentar", "name": "DkZ Dokumentar™", "role": "documentation", "team": "dkz-dokumentar", "status": "active", "icon": "📚"}
+  ],
+  "loops": [
+    {"id": "ralph", "name": "Ralph Loop", "interval": "per-task", "enabled": true, "phases": 6},
+    {"id": "copilot-suggest", "name": "Copilot Suggest", "interval": "30s", "enabled": true},
+    {"id": "auto-save", "name": "Auto-Save", "interval": "60s", "enabled": true},
+    {"id": "backup", "name": "Backup", "interval": "5min", "enabled": true},
+    {"id": "health", "name": "Health Check", "interval": "30s", "enabled": true},
+    {"id": "update", "name": "Update", "interval": "10min", "enabled": true},
+    {"id": "triage", "name": "Issue Triage", "interval": "5min", "enabled": true},
+    {"id": "dual-agent", "name": "Dual-Agent", "interval": "realtime", "enabled": true}
+  ],
+  "systems": [
+    {"id": "swarm", "name": "Agent Swarm", "status": "online", "team": "agent-swarm"},
+    {"id": "ralph-loop", "name": "Ralph-Loop™", "status": "online", "team": "ralph-loop"},
+    {"id": "botnet", "name": "BotNet™", "status": "online", "team": "botnet-ops"},
+    {"id": "copilot", "name": "Copilot Bridge", "status": "online", "team": "copilot-bridge"},
+    {"id": "hermes", "name": "Hermes™", "status": "online", "team": "hermes-comms"},
+    {"id": "iceberg", "name": "Iceberg™", "status": "online", "team": "iceberg-data"}
+  ],
+  "settings": {
+    "ampel": {"green": "#00ff88", "yellow": "#ffb800", "red": "#ff3b5c"},
+    "gracefulDegradation": true,
+    "offlineFirst": true,
+    "maxConcurrentAgents": 4,
+    "contextFreshness": "per-task"
+  }
+}
